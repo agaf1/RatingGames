@@ -2,15 +2,13 @@ package aga.service.domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-public class Player {
+public class Game {
 
     private Integer id;
-    private String firstName;
-    private String lastName;
-    private int age;
-
-
+    private String name;
+    private String category;
 }

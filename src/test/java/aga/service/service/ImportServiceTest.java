@@ -1,7 +1,11 @@
 package aga.service.service;
 
+import aga.repository.GameRepository;
 import aga.repository.PlayerRepository;
+import aga.repository.RatingRepository;
+import aga.service.domain.Game;
 import aga.service.domain.Player;
+import aga.service.domain.Rating;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,8 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @ExtendWith(MockitoExtension.class)
 class ImportServiceTest {
 
@@ -21,6 +23,10 @@ class ImportServiceTest {
     private DataReaderService dataReader;
     @Mock
     private PlayerRepository playerRepository;
+    @Mock
+    private GameRepository gameRepository;
+    @Mock
+    private RatingRepository ratingRepository;
     @InjectMocks
     private ImportService importService;
 
@@ -30,18 +36,10 @@ class ImportServiceTest {
         //given
         String path = "src/main/resources/gracze.txt";
 
-        Player player1 = new Player();
-        player1.setId(1);
-        player1.setFirstName("Ala");
-        player1.setLastName("Alanska");
-        player1.setAge(36);
-        Player player2 = new Player();
-        player2.setId(2);
-        player2.setFirstName("Tom");
-        player2.setLastName("Dick");
-        player2.setAge(45);
+        Player player1 = Player.builder().id(1).firstName("Ala").lastName("Alanska").age(36).build();
+        Player player2 = Player.builder().id(2).firstName("Tom").lastName("Dick").age(45).build();
 
-        List<Player> data = List.of(player1,player2);
+        List<Player> data = List.of(player1, player2);
 
         //when
         Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
@@ -52,5 +50,46 @@ class ImportServiceTest {
         //then
         Mockito.verify(playerRepository, Mockito.atLeastOnce()).save(player1);
     }
+
+    @Test
+    public void should_create_games_and_save_to_DB() throws FileNotFoundException {
+        //given
+        String path = "games.txt";
+
+        Game game1 = Game.builder().id(1).name("duck").category("family").build();
+        Game game2 = Game.builder().id(1).name("lala").category("family").build();
+
+        List<Game> data = List.of(game1, game2);
+
+        //when
+        Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
+        Mockito.when(dataReader.read(path).toGames()).thenReturn(data);
+
+        importService.importTxtToGame(path);
+
+        //then
+        Mockito.verify(gameRepository, Mockito.atLeastOnce()).save(game1);
+    }
+
+    @Test
+    public void should_create_ratings_and_save_to_DB() throws FileNotFoundException {
+        //given
+        String path = "ratings.txt";
+
+        Rating rating1 = Rating.builder().gameId(1).playerId(1).rating(3).state("buy").build();
+        Rating rating2 = Rating.builder().gameId(2).playerId(1).rating(5).state("to buy").build();
+
+        List<Rating> data = List.of(rating1, rating2);
+
+        //when
+        Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
+        Mockito.when(dataReader.read(path).toRating()).thenReturn(data);
+
+        importService.importTxtToRating(path);
+
+        //then
+        Mockito.verify(ratingRepository, Mockito.atLeastOnce()).save(rating1);
+    }
+
 
 }

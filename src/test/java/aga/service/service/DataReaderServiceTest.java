@@ -1,16 +1,13 @@
 package aga.service.service;
 
+import aga.service.domain.Game;
 import aga.service.domain.Player;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DataReaderServiceTest {
 
@@ -46,14 +43,27 @@ class DataReaderServiceTest {
         List<Player> result = mapper.toPlayers();
 
         //then
-        Player player = new Player();
-        player.setId(1);
-        player.setFirstName("ala");
-        player.setLastName("dada");
-        player.setAge(3);
+        Player player = Player.builder().id(1).firstName("ala").lastName("dada").age(3).build();
 
         assertThat(result.get(0)).isEqualTo(player);
     }
 
+    @Test
+    public void should_create_object_game_from_array_of_String() {
+        //given
+        String[] tab1 = {"1", "duck", "familijna"};
+        String[] tab2 = {"2", "tom", "familijna"};
+
+        List<String[]> data = List.of(tab1, tab2);
+        mapper.data = data;
+
+        //when
+        List<Game> result = mapper.toGames();
+
+        //then
+        Game game = Game.builder().id(1).name("duck").category("familijna").build();
+
+        assertThat(result.get(0)).isEqualTo(game);
+    }
 
 }

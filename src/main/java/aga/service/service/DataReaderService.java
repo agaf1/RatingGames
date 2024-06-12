@@ -1,6 +1,8 @@
 package aga.service.service;
 
+import aga.service.domain.Game;
 import aga.service.domain.Player;
+import aga.service.domain.Rating;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,20 +42,43 @@ public class DataReaderService {
 
             List<Player> players = new ArrayList<>();
             for (String[] dataForPlayer : data) {
-                Player player = new Player();
-                player.setId(Integer.valueOf(dataForPlayer[0]));
-                player.setFirstName(dataForPlayer[1]);
-                player.setLastName(dataForPlayer[2]);
-                player.setAge(Integer.parseInt(dataForPlayer[3]));
+                Player player = Player.builder()
+                        .id(Integer.valueOf(dataForPlayer[0]))
+                        .firstName(dataForPlayer[1])
+                        .lastName(dataForPlayer[2])
+                        .age(Integer.parseInt(dataForPlayer[3]))
+                        .build();
                 players.add(player);
             }
             return players;
         }
 
+        List<Game> toGames() {
+            List<Game> games = new ArrayList<>();
+            for (String[] dataForGame : data) {
+                Game game = Game.builder()
+                        .id(Integer.valueOf(dataForGame[0]))
+                        .name(dataForGame[1])
+                        .category(dataForGame[2])
+                        .build();
+                games.add(game);
+            }
+            return games;
+        }
 
-//        List<Game> toGames() {
-//            return null;
-//        }
+        List<Rating> toRating() {
+            List<Rating> ratings = new ArrayList<>();
+            for (String[] dataForRating : data) {
+                Rating rating = Rating.builder()
+                        .gameId(Integer.parseInt(dataForRating[0]))
+                        .playerId(Integer.parseInt(dataForRating[1]))
+                        .state(dataForRating[2])
+                        .rating(Integer.parseInt(dataForRating[3]))
+                        .build();
+                ratings.add(rating);
+            }
+            return ratings;
+        }
     }
 
 }
