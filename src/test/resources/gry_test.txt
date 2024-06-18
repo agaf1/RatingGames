@@ -1,0 +1,4 @@
+id_gry	nazwa	kategoria
+1	Wsiasc do Pociagu: Europa	familijna
+2	Pandemia	kooperacyjna
+3	Na skrzydlach	familijna

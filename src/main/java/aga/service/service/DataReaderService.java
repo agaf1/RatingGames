@@ -3,15 +3,17 @@ package aga.service.service;
 import aga.service.domain.Game;
 import aga.service.domain.Player;
 import aga.service.domain.Rating;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-
+@Service
 public class DataReaderService {
     public Mapper read(String path) throws FileNotFoundException {
 
@@ -58,12 +60,29 @@ public class DataReaderService {
             for (String[] dataForGame : data) {
                 Game game = Game.builder()
                         .id(Integer.valueOf(dataForGame[0]))
-                        .name(dataForGame[1])
-                        .category(dataForGame[2])
+                        .name(connectName(dataForGame))
+                        .category(dataForGame[dataForGame.length - 1])
                         .build();
                 games.add(game);
             }
             return games;
+        }
+
+        private String connectName(String[] str) {
+            String connectedName = str[1];
+            if (str.length > 3) {
+                connectedName = getConnectedName(str,1, str.length-1-1);
+            }
+            return connectedName;
+        }
+
+        private static String getConnectedName(String[] str, int skip, int limit) {
+            String connectedName;
+            connectedName = Arrays.stream(str)
+                    .skip(skip)
+                    .limit(limit)
+                    .collect(Collectors.joining(" "));
+            return connectedName;
         }
 
         List<Rating> toRating() {
@@ -72,12 +91,20 @@ public class DataReaderService {
                 Rating rating = Rating.builder()
                         .gameId(Integer.parseInt(dataForRating[0]))
                         .playerId(Integer.parseInt(dataForRating[1]))
-                        .state(dataForRating[2])
-                        .rating(Integer.parseInt(dataForRating[3]))
+                        .state(connectState(dataForRating))
+                        .rating(Integer.parseInt(dataForRating[dataForRating.length - 1]))
                         .build();
                 ratings.add(rating);
             }
             return ratings;
+        }
+
+        private String connectState(String[] str) {
+            String connectedState = str[2];
+            if (str.length > 4) {
+                connectedState = getConnectedName(str,2, str.length-2-1);
+            }
+            return connectedState;
         }
     }
 

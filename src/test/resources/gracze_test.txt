@@ -1,0 +1,4 @@
+id_gracza	imie	nazwisko	wiek
+1	Jozef	Gorecki	29
+2	Przemyslaw	Mazurek	68
+3	Cezary	Kaczmarczyk	41

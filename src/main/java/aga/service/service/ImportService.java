@@ -19,7 +19,7 @@ public class ImportService {
     private final GameRepository gameRepository;
     private final RatingRepository ratingRepository;
 
-    public void importTxtToPlayer(String path) throws FileNotFoundException {
+    public void importPlayer(String path) throws FileNotFoundException {
 
         List<Player> players = dataReader.read(path).toPlayers();
 
@@ -27,7 +27,7 @@ public class ImportService {
             playerRepository.save(player);
         }
     }
-    public void importTxtToGame(String path) throws FileNotFoundException {
+    public void importGame(String path) throws FileNotFoundException {
 
         List<Game> games = dataReader.read(path).toGames();
 
@@ -36,7 +36,7 @@ public class ImportService {
         }
     }
 
-    public void importTxtToRating(String path) throws FileNotFoundException{
+    public void importRating(String path) throws FileNotFoundException{
 
         List<Rating> ratings = dataReader.read(path).toRating();
 

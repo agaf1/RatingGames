@@ -45,7 +45,7 @@ class ImportServiceTest {
         Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
         Mockito.when(dataReader.read(path).toPlayers()).thenReturn(data);
 
-        importService.importTxtToPlayer(path);
+        importService.importPlayer(path);
 
         //then
         Mockito.verify(playerRepository, Mockito.atLeastOnce()).save(player1);
@@ -65,7 +65,7 @@ class ImportServiceTest {
         Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
         Mockito.when(dataReader.read(path).toGames()).thenReturn(data);
 
-        importService.importTxtToGame(path);
+        importService.importGame(path);
 
         //then
         Mockito.verify(gameRepository, Mockito.atLeastOnce()).save(game1);
@@ -85,7 +85,7 @@ class ImportServiceTest {
         Mockito.when(dataReader.read(path)).thenReturn(Mockito.mock(DataReaderService.Mapper.class));
         Mockito.when(dataReader.read(path).toRating()).thenReturn(data);
 
-        importService.importTxtToRating(path);
+        importService.importRating(path);
 
         //then
         Mockito.verify(ratingRepository, Mockito.atLeastOnce()).save(rating1);

@@ -1,0 +1,4 @@
+id_gry	id_gracza	stan	ocena
+66	1	posiada	8
+72	1	chce kupic	3
+79	1	sprzedal	8
