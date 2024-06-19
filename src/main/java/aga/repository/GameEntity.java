@@ -18,6 +18,7 @@ public class GameEntity {
     private Integer id;
     private String name;
     private String category;
+
     @OneToMany(mappedBy = "game",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
