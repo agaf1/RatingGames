@@ -54,8 +54,4 @@ class RatingRepositoryImplTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("The rating with gameId=1 and playerId=2 does not exist");
     }
-
-
-
-
 }

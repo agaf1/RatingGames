@@ -20,7 +20,22 @@ public interface MapperRating {
         return playerEntity.getId();
     }
 
-    @Mapping(ignore = true, target = "game")
-    @Mapping(ignore = true, target = "player")
+    @Mapping(source ="gameId", target = "game")
+    @Mapping(source ="playerId", target = "player")
+    @Mapping(target="id",expression = "java(createRatingId(rating))")
     RatingEntity mapToRatingEntity(Rating rating);
+
+    default RatingId createRatingId(Rating rating) {
+        return new RatingId(rating.getGameId(),rating.getPlayerId());
+    }
+    default GameEntity gameIdToGameEntity(Integer gameId){
+        GameEntity gameEntity = new GameEntity();
+        gameEntity.setId(gameId);
+        return gameEntity;
+    }
+    default PlayerEntity playerIdToPlayerEntity(Integer playerId){
+        PlayerEntity playerEntity = new PlayerEntity();
+        playerEntity.setId(playerId);
+        return playerEntity;
+    }
 }

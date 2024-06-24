@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Repository
@@ -19,10 +20,7 @@ public class RatingRepositoryImpl implements RatingRepository {
     @Override
     @Transactional
     public Rating save(Rating rating) {
-        GameEntity gameEntity = gameJpa.findById(rating.getGameId()).orElseThrow();
-        PlayerEntity playerEntity = playerJpa.findById(rating.getPlayerId()).orElseThrow();
         RatingEntity ratingEntity = mapperRating.mapToRatingEntity(rating);
-        ratingEntity.setGameAndPlayer(gameEntity, playerEntity);
         RatingEntity savedRatingEntity = ratingJpa.save(ratingEntity);
         return mapperRating.mapToRating(savedRatingEntity);
     }
@@ -32,5 +30,25 @@ public class RatingRepositoryImpl implements RatingRepository {
         RatingEntity ratingEntity = ratingJpa.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("The rating with gameId=%d and playerId=%d does not exist",id.getGameId(),id.getPlayerId())));
         return mapperRating.mapToRating(ratingEntity);
+    }
+
+    @Override
+    public String getGameNameWithTheHighestNumberOfRatings() {
+        return ratingJpa.getGameNameWithTheHighestNumberOfRatings();
+    }
+
+    @Override
+    public double getAverageRatingForGivenCategoryOfGame(String category) {
+        return ratingJpa.getAverageRatingForGivenCategoryOfGame(category);
+    }
+
+    @Override
+    public int getNumberOfPlayersWhoHaveGivenAtLeastOneRatingAndDoNotHaveGivenGameState(String state) {
+        return ratingJpa.getNumberOfPlayersWhoHaveGivenAtLeastOneRatingAndDoNotHaveGivenGameState(state);
+    }
+
+    @Override
+    public List<String> getListOfGameNameWithTheHighestNumberOfRatingsInAgeCategory(int ageStart, int ageEnd) {
+        return ratingJpa.getListOfGameNameWithTheHighestNumberOfRatingsInAgeCategory(ageStart,ageEnd);
     }
 }

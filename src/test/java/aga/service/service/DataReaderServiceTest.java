@@ -5,9 +5,6 @@ import aga.service.domain.Player;
 import aga.service.domain.Rating;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.FileNotFoundException;
@@ -82,9 +79,9 @@ class DataReaderServiceTest {
         //then
         int expectedSize = 3;
 
-        Rating rating1 = Rating.builder().gameId(66).playerId(1).state("posiada").rating(8).build();
-        Rating rating2 = Rating.builder().gameId(72).playerId(1).state("chce kupic").rating(3).build();
-        Rating rating3 = Rating.builder().gameId(79).playerId(1).state("sprzedal").rating(8).build();
+        Rating rating1 = Rating.builder().gameId(2).playerId(1).state("posiada").rating(8).build();
+        Rating rating2 = Rating.builder().gameId(2).playerId(3).state("posiada").rating(3).build();
+        Rating rating3 = Rating.builder().gameId(1).playerId(1).state("posiada").rating(8).build();
 
         assertThat(result.data.size()).isEqualTo(expectedSize);
 
