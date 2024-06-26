@@ -13,7 +13,7 @@ public interface MapperRating {
     Rating mapToRating(RatingEntity ratingEntity);
 
     default Integer mapToGameId(GameEntity gameEntity) {
-        return gameEntity.getId();
+        return gameEntity.getGameId();
     }
 
     default Integer mapToPlayerId(PlayerEntity playerEntity) {
@@ -30,7 +30,7 @@ public interface MapperRating {
     }
     default GameEntity gameIdToGameEntity(Integer gameId){
         GameEntity gameEntity = new GameEntity();
-        gameEntity.setId(gameId);
+        gameEntity.setGameId(gameId);
         return gameEntity;
     }
     default PlayerEntity playerIdToPlayerEntity(Integer playerId){

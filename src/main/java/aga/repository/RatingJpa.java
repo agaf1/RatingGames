@@ -12,9 +12,9 @@ public interface RatingJpa extends CrudRepository<RatingEntity, RatingId> {
             """
                     Select games.name
                     from ratings 
-                    join games on games.id = ratings.game_id
+                    join games on games.game_id = ratings.game_game_id
                     group by games.name
-                    order by count(ratings.game_id) DESC
+                    order by count(ratings.game_game_id) DESC
                     limit 1;
                                         """
             , nativeQuery = true
@@ -24,7 +24,7 @@ public interface RatingJpa extends CrudRepository<RatingEntity, RatingId> {
     @Query(value = """
             Select avg(ratings.rating)
             from ratings 
-            join games on ratings.game_id = games.id
+            join games on ratings.game_game_id = games.game_id
             where games.category = :category;
             """
             , nativeQuery = true)
@@ -43,16 +43,16 @@ public interface RatingJpa extends CrudRepository<RatingEntity, RatingId> {
 
     @Query(value = """
             select name from(
-            select games.id, games.name as name, count(*) as num
-            from games join ratings on games.id = ratings.game_id
+            select games.game_id, games.name as name, count(*) as num
+            from games join ratings on games.game_id = ratings.game_game_id
             join players on players.id = ratings.player_id
             where players.age between :ageStart and :ageEnd
             group by game_id
             having num = (
             select max(num)
             from(
-            select games.id, games.name, count(*) as num
-            from games join ratings on games.id = ratings.game_id
+            select games.game_id, games.name, count(*) as num
+            from games join ratings on games.game_id = ratings.game_game_id
             join players on players.id = ratings.player_id
             where players.age between :ageStart and :ageEnd
             group by game_id)c))a;

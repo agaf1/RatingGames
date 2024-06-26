@@ -28,16 +28,11 @@ public class RatingEntity {
     private String state;
     private int rating;
 
-//    public RatingEntity(GameEntity game, PlayerEntity player){
-//        this.game = game;
-//        this.player = player;
-//        this.id = new RatingId(game.getId(),player.getId());
-//    }
 
     void setGameAndPlayer(GameEntity gameEntity, PlayerEntity playerEntity) {
         this.game = gameEntity;
         this.player = playerEntity;
-        this.id =  new RatingId(gameEntity.getId(), playerEntity.getId());
+        this.id =  new RatingId(gameEntity.getGameId(), playerEntity.getId());
     }
 
     @Override
@@ -54,7 +49,7 @@ public class RatingEntity {
 
     @Override
     public int hashCode() {
-        return 15;
+        return 7;
     }
 
 }

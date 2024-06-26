@@ -1,10 +1,8 @@
 package aga.repository;
 
 import aga.service.domain.Rating;
-import aga.service.service.RatingService;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RatingRepository {
 

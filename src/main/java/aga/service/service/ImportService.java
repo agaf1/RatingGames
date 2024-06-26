@@ -22,29 +22,17 @@ public class ImportService {
     private final RatingRepository ratingRepository;
 
     public void importPlayer(String path) throws FileNotFoundException {
-
         List<Player> players = dataReader.read(path).toPlayers();
-        //TODO  sprubuj uzyc players.forEach
-        for(Player player: players){
-            playerRepository.save(player);
-        }
+        players.forEach(player -> playerRepository.save(player));
     }
     public void importGame(String path) throws FileNotFoundException {
-
         List<Game> games = dataReader.read(path).toGames();
-        //TODO  sprubuj uzyc players.forEach
-        for(Game game: games){
-           gameRepository.save(game);
-        }
+        games.forEach(game -> gameRepository.save(game));
     }
 
     public void importRating(String path) throws FileNotFoundException{
-
         List<Rating> ratings = dataReader.read(path).toRating();
-        //TODO  sprubuj uzyc players.forEach
-        for(Rating rating: ratings){
-            ratingRepository.save(rating);
-        }
+       ratings.forEach(rating -> ratingRepository.save(rating));
     }
 
 }
